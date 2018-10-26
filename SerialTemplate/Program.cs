@@ -7,13 +7,12 @@ namespace SerialPortTest
 {
     class Program
     {
-
+        //Time in ms between reading the serial port.
         const int readTimeout = 100;
 
         static SerialPort sp = new SerialPort();
-
-        static string[] ports = SerialPort.GetPortNames();
-        static byte[] buffer;
+        static readonly string[] ports = SerialPort.GetPortNames();
+        
         static void Main(string[] args)
         {
             while (true)
@@ -32,13 +31,15 @@ namespace SerialPortTest
                 }
                 catch (Exception e)
                 {
-                    Console.Write("Port opening error.");
+                    Console.WriteLine("Port opening error.");
                 }
             }
         }
 
+        //Thread that does reading from serial port to buffer.
         static void SerialThread()
         {
+            byte[] buffer;
             while (true)
             {
                 buffer = new byte[sp.BytesToRead];
@@ -52,6 +53,7 @@ namespace SerialPortTest
             }
         }
 
+        //Lists system COM ports.
         static void PrintPorts()
         {
             Console.WriteLine("Ports: ");
@@ -63,11 +65,12 @@ namespace SerialPortTest
             }
         }
 
+        //Sets the default settings for Arduino to read the data.
         static void InitPort(int num)
         {
             try
             {
-                // настройки порта
+                //Port settings.
                 sp.PortName = ports[num];
                 sp.BaudRate = 9600;
                 sp.DataBits = 8;
@@ -80,7 +83,7 @@ namespace SerialPortTest
             }
             catch (Exception e)
             {
-                Console.WriteLine("Some shit happened.");
+                Console.WriteLine("Some shit happened. ");
                 return;
             }
         }
