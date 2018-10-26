@@ -9,7 +9,7 @@ namespace SerialPortTest
     {
         //Time in ms between reading the serial port.
         const int readTimeout = 100;
-
+    
         static SerialPort sp = new SerialPort();
         static readonly string[] ports = SerialPort.GetPortNames();
         
@@ -44,7 +44,7 @@ namespace SerialPortTest
             {
                 buffer = new byte[sp.BytesToRead];
                 sp.Read(buffer, 0, buffer.Length);
-                string output = Encoding.UTF8.GetString(buffer, 0, buffer.Length);
+                string output = Encoding.UTF8.GetString(buffer, 0, buffer.Length); //Byte array to string.
                 if (output.Length != 0)
                 {
                     Console.Write(output);
