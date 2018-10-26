@@ -17,6 +17,7 @@ namespace SerialPortTest
         {
             while (true)
             {
+                Console.WriteLine("*******************");
                 PrintPorts();
                 Console.Write("Choose port > ");
                 char key = Console.ReadKey().KeyChar;
@@ -32,6 +33,7 @@ namespace SerialPortTest
                 catch (Exception e)
                 {
                     Console.WriteLine("Port opening error.");
+                    
                 }
             }
         }
