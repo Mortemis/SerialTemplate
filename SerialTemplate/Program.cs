@@ -8,21 +8,33 @@ namespace SerialPortTest
     class Program
     {
 
+        const int readTimeout = 100;
+
         static SerialPort sp = new SerialPort();
 
         static string[] ports = SerialPort.GetPortNames();
         static byte[] buffer;
         static void Main(string[] args)
         {
-            PrintPorts();
-            Console.Write("Choose port > ");
-            char key = Console.ReadKey().KeyChar;
-            Console.WriteLine();
-            Console.WriteLine("Port " + ports[int.Parse(key.ToString())] + " chosen.");
-            InitPort(int.Parse(key.ToString()));
-            Thread serialTh = new Thread(SerialThread);
-            serialTh.Start();
-
+            while (true)
+            {
+                PrintPorts();
+                Console.Write("Choose port > ");
+                char key = Console.ReadKey().KeyChar;
+                Console.WriteLine();
+                try
+                {
+                    Console.WriteLine("Port " + ports[int.Parse(key.ToString())] + " chosen.");
+                    InitPort(int.Parse(key.ToString()));
+                    Thread serialTh = new Thread(SerialThread);
+                    serialTh.Start();
+                    break;
+                }
+                catch (Exception e)
+                {
+                    Console.Write("Port opening error.");
+                }
+            }
         }
 
         static void SerialThread()
@@ -36,7 +48,7 @@ namespace SerialPortTest
                 {
                     Console.Write(output);
                 }
-                Thread.Sleep(500);
+                Thread.Sleep(readTimeout);
             }
         }
 
